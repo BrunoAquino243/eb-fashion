@@ -3,7 +3,9 @@
 
 // Constantes
 const STORAGE_KEY = 'ebfashion_products';
+const CATEGORIES_KEY = 'ebfashion_categories'; // Chave para categorias
 const VIEWS_KEY = 'ebfashion_views';
+const CART_KEY = 'ebfashion_cart'; // Chave para o carrinho
 const DEMO_IMAGES = [
     'images/products/camisa1.jpg',
     'images/products/moletom1.jpg',
@@ -27,14 +29,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Inicializar produtos de demonstração se não existirem
-    initDemoProducts();
+    // Inicializar categorias e produtos de demonstração se não existirem
+    initDemoData();
     
     // Incrementar contador de visualizações
     incrementPageView();
+
+    // Atualizar contagem do carrinho no header
+    updateCartCount();
 });
 
-// Funções de gerenciamento de produtos
+// Funções de gerenciamento de dados (Produtos e Categorias)
 
 // Obter todos os produtos
 function getProducts() {
@@ -53,9 +58,39 @@ function getProductById(id) {
     return products.find(product => product.id === id);
 }
 
-// Inicializar produtos de demonstração
-function initDemoProducts() {
+// Obter todas as categorias
+function getCategories() {
+    const categories = localStorage.getItem(CATEGORIES_KEY);
+    // Retorna categorias salvas ou as padrão se não houver salvas
+    return categories ? JSON.parse(categories) : [
+        { slug: 'camisas', name: 'Camisas' },
+        { slug: 'moletons', name: 'Moletons' },
+        { slug: 'calcas', name: 'Calças' },
+        { slug: 'blusas', name: 'Blusas' }
+    ];
+}
+
+// Salvar categorias
+function saveCategories(categories) {
+    localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories));
+}
+
+// Obter nome da categoria pelo slug
+function getCategoryName(categorySlug) {
+    const categories = getCategories();
+    const category = categories.find(cat => cat.slug === categorySlug);
+    return category ? category.name : categorySlug; // Retorna o nome ou o slug se não encontrar
+}
+
+// Inicializar dados de demonstração (Categorias e Produtos)
+function initDemoData() {
     const products = getProducts();
+    const categories = getCategories(); // Carrega categorias existentes ou padrão
+
+    // Salva as categorias padrão se for a primeira vez
+    if (!localStorage.getItem(CATEGORIES_KEY)) {
+        saveCategories(categories);
+    }
     
     // Se já existem produtos, não criar demonstração
     if (products.length > 0) {
@@ -262,7 +297,7 @@ function createProductCard(product) {
             <div class="product-info">
                 <div class="product-category">${getCategoryName(product.category)}</div>
                 <h3 class="product-title">${product.name}</h3>
-                <div class="product-price">€${product.price.toFixed(2)}</div>
+                <div class="product-price">${product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
                 <div class="product-actions">
                     <button class="btn btn-sm">Ver Detalhes</button>
                 </div>
@@ -297,7 +332,7 @@ function loadProductDetails(productId) {
         <div class="product-info-details">
             <span class="product-category">${getCategoryName(product.category)}</span>
             <h1 class="product-title">${product.name}</h1>
-            <div class="product-price">€${product.price.toFixed(2)}</div>
+            <div class="product-price">${product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
             <div class="product-description">
                 ${product.description || 'Sem descrição disponível.'}
             </div>
@@ -306,7 +341,7 @@ function loadProductDetails(productId) {
                 <p><strong>Categoria:</strong> ${getCategoryName(product.category)}</p>
             </div>
             <div class="product-actions">
-                <button class="btn">Adicionar ao Carrinho</button>
+                <button class="btn" onclick="addToCart('${product.id}')">Adicionar ao Carrinho</button> 
             </div>
         </div>
     `;
@@ -344,7 +379,9 @@ function loadRelatedProducts(productId) {
     relatedProducts = relatedProducts.slice(0, 4);
     
     if (relatedProducts.length === 0) {
-        relatedContainer.innerHTML = '<p class="no-products">Não há produtos relacionados disponíveis.</p>';
+        // Não exibir a seção se não houver relacionados
+         const relatedSection = document.querySelector('.related-products-section');
+         if(relatedSection) relatedSection.style.display = 'none';
         return;
     }
     
@@ -356,23 +393,70 @@ function loadRelatedProducts(productId) {
     });
 }
 
+// Funções do Carrinho
+
+// Obter itens do carrinho
+function getCartItems() {
+    const cart = localStorage.getItem(CART_KEY);
+    return cart ? JSON.parse(cart) : [];
+}
+
+// Salvar itens no carrinho
+function saveCartItems(cartItems) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
+}
+
+// Adicionar item ao carrinho
+function addToCart(productId, quantity = 1) {
+    const product = getProductById(productId);
+    if (!product || !product.available || product.stock < quantity) {
+        alert('Produto indisponível ou quantidade insuficiente em estoque.');
+        return;
+    }
+
+    let cartItems = getCartItems();
+    const existingItemIndex = cartItems.findIndex(item => item.id === productId);
+
+    if (existingItemIndex > -1) {
+        // Atualiza quantidade se já existe
+        cartItems[existingItemIndex].quantity += quantity;
+        // Verifica se a quantidade não excede o estoque
+        if (cartItems[existingItemIndex].quantity > product.stock) {
+            alert(`Quantidade máxima em estoque para ${product.name} é ${product.stock}.`);
+            cartItems[existingItemIndex].quantity = product.stock;
+        }
+    } else {
+        // Adiciona novo item
+        cartItems.push({ 
+            id: productId, 
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: quantity 
+        });
+    }
+
+    saveCartItems(cartItems);
+    updateCartCount(); // Atualiza o contador no header
+    alert(`${product.name} adicionado ao carrinho!`);
+}
+
+// Atualizar contagem de itens no ícone do carrinho
+function updateCartCount() {
+    const cartCountElement = document.getElementById('cartItemCount');
+    if (cartCountElement) {
+        const cartItems = getCartItems();
+        const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+        cartCountElement.textContent = totalItems;
+        cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+    }
+}
+
 // Funções utilitárias
 
 // Gerar ID único
 function generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-}
-
-// Obter nome da categoria
-function getCategoryName(categorySlug) {
-    const categories = {
-        'camisas': 'Camisas',
-        'moletons': 'Moletons',
-        'calcas': 'Calças',
-        'blusas': 'Blusas'
-    };
-    
-    return categories[categorySlug] || categorySlug;
 }
 
 // Incrementar contador de visualizações
@@ -388,9 +472,64 @@ function getTotalViews() {
     return views ? parseInt(views) : 0;
 }
 
-// Obter categorias únicas
-function getUniqueCategories() {
+// Obter categorias únicas dos produtos atuais (pode ser útil para filtros)
+function getUniqueProductCategories() {
     const products = getProducts();
-    const categories = [...new Set(products.map(product => product.category))];
-    return categories;
+    const categoriesSlugs = [...new Set(products.map(product => product.category))];
+    const allCategories = getCategories();
+    // Mapeia slugs para nomes
+    return categoriesSlugs.map(slug => {
+        const category = allCategories.find(cat => cat.slug === slug);
+        return category ? category : { slug: slug, name: slug }; // Retorna objeto categoria ou um padrão
+    });
 }
+
+// Carregar opções de categoria nos filtros e formulários
+function loadCategoryOptions(selectElementId, addAllOption = true) {
+    const selectElement = document.getElementById(selectElementId);
+    if (!selectElement) return;
+
+    const categories = getCategories();
+    selectElement.innerHTML = ''; // Limpa opções existentes
+
+    if (addAllOption) {
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = 'Todas';
+        selectElement.appendChild(allOption);
+    }
+
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.slug;
+        option.textContent = category.name;
+        selectElement.appendChild(option);
+    });
+}
+
+// Adicionar listeners para carregar categorias nos locais apropriados
+document.addEventListener('DOMContentLoaded', () => {
+    // Página de produtos (filtro)
+    if (document.getElementById('categoryFilter')) {
+        loadCategoryOptions('categoryFilter', true);
+        // Adicionar listeners para filtros se existirem
+        document.getElementById('categoryFilter').addEventListener('change', loadProducts);
+        document.getElementById('sortFilter').addEventListener('change', loadProducts);
+    }
+    // Página de detalhes do produto (carregar detalhes e relacionados)
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    if (productId && document.getElementById('productContainer')) {
+        loadProductDetails(productId);
+        loadRelatedProducts(productId);
+    }
+    // Página inicial (produtos em destaque)
+    if (document.getElementById('featuredProducts')) {
+        loadFeaturedProducts();
+    }
+    // Página de produtos (carregar todos os produtos)
+    if (document.getElementById('productsGrid')) {
+        loadProducts();
+    }
+});
+
