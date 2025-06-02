@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Fashion - Moda e Estilo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="EB Fashion Logo">
+                    <h1>EB Fashion</h1>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html" class="active">Início</a></li>
+                    <li><a href="products.html">Produtos</a></li>
+                    <li><a href="about.html">Sobre Nós</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Carrinho <span id="cartItemCount" class="cart-count">0</span></a></li>
+                    <li><a href="admin/login.html"><i class="fas fa-user"></i> Área Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Descubra o seu estilo na EB Fashion</h2>
+            <p>As últimas tendências em moda com qualidade e preços acessíveis para todos os gostos.</p>
+            <a href="products.html" class="btn">Ver Coleção</a>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Categorias</h2>
+            </div>
+            <div class="category-grid">
+                <a href="products.html?category=camisas" class="category-card">
+                    <img src="images/products/category-shirts.jpg" alt="Camisas" class="category-img">
+                    <div class="category-info">
+                        <h3>Camisas</h3>
+                        <p>Explore nossa coleção</p>
+                    </div>
+                </a>
+                <a href="products.html?category=moletons" class="category-card">
+                    <img src="images/products/category-hoodies.jpg" alt="Moletons" class="category-img">
+                    <div class="category-info">
+                        <h3>Moletons</h3>
+                        <p>Explore nossa coleção</p>
+                    </div>
+                </a>
+                <a href="products.html?category=calcas" class="category-card">
+                    <img src="images/products/category-pants.jpg" alt="Calças" class="category-img">
+                    <div class="category-info">
+                        <h3>Calças</h3>
+                        <p>Explore nossa coleção</p>
+                    </div>
+                </a>
+                <a href="products.html?category=blusas" class="category-card">
+                    <img src="images/products/category-blouses.jpg" alt="Blusas" class="category-img">
+                    <div class="category-info">
+                        <h3>Blusas</h3>
+                        <p>Explore nossa coleção</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Produtos em Destaque</h2>
+            </div>
+            <div class="product-grid" id="featuredProducts">
+                <!-- Produtos em destaque serão carregados via JavaScript -->
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="products.html" class="btn">Ver Todos os Produtos</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="EB Fashion Logo">
+                    <p>A sua loja de moda exclusiva com as melhores tendências e qualidade.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="products.html">Produtos</a></li>
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categorias</h4>
+                    <ul>
+                        <li><a href="products.html?category=camisas">Camisas</a></li>
+                        <li><a href="products.html?category=moletons">Moletons</a></li>
+                        <li><a href="products.html?category=calcas">Calças</a></li>
+                        <li><a href="products.html?category=blusas">Blusas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Online</li>
+                        <li><i class="fas fa-phone"></i> 54 991686874</li>
+                        <li><i class="fas fa-envelope"></i> info@ebfashion.pt</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EB Fashion. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Carregar produtos em destaque na página inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeaturedProducts();
+        });
+    </script>
+</body>
+</html>
