@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Fashion - Detalhes do Produto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="EB Fashion Logo">
+                    <h1>EB Fashion</h1>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="products.html" class="active">Produtos</a></li>
+                    <li><a href="about.html">Sobre Nós</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Carrinho <span id="cartItemCount" class="cart-count">0</span></a></li>
+                    <li><a href="admin/login.html"><i class="fas fa-user"></i> Área Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="product-details">
+        <div class="container">
+            <div id="productContainer" class="product-container">
+                <!-- Detalhes do produto serão carregados via JavaScript -->
+                <div class="loading">Carregando detalhes do produto...</div>
+            </div>
+            <div id="productNotFound" style="display: none; text-align: center; padding: 50px;">
+                <h2>Produto não encontrado</h2>
+                <p>O produto que procura não está disponível ou foi removido.</p>
+                <a href="products.html" class="btn">Ver Todos os Produtos</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="related-products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Produtos Relacionados</h2>
+            </div>
+            <div class="product-grid" id="relatedProducts">
+                <!-- Produtos relacionados serão carregados via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="EB Fashion Logo">
+                    <p>A sua loja de moda exclusiva com as melhores tendências e qualidade.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="products.html">Produtos</a></li>
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categorias</h4>
+                    <ul>
+                        <li><a href="products.html?category=camisas">Camisas</a></li>
+                        <li><a href="products.html?category=moletons">Moletons</a></li>
+                        <li><a href="products.html?category=calcas">Calças</a></li>
+                        <li><a href="products.html?category=blusas">Blusas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Online</li>
+                        <li><i class="fas fa-phone"></i> 54 991686874</li>
+                        <li><i class="fas fa-envelope"></i> info@ebfashion.pt</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EB Fashion. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obter ID do produto da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (productId) {
+                loadProductDetails(productId);
+                loadRelatedProducts(productId);
+            } else {
+                document.getElementById('productContainer').style.display = 'none';
+                document.getElementById('productNotFound').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
