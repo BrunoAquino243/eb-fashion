@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Fashion - Adicionar Produto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="EB Fashion Logo">
+                    <h1>EB Fashion - Admin</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Ver Loja</a></li>
+                    <li><a href="javascript:void(0);" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="admin-container container">
+        <div class="admin-sidebar">
+            <ul class="admin-menu">
+                <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="products.html"><i class="fas fa-tshirt"></i> Produtos</a></li>
+                <li><a href="add-product.html" class="active"><i class="fas fa-plus"></i> Adicionar Produto</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Configurações</a></li>
+            </ul>
+        </div>
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2 class="admin-title" id="formTitle">Adicionar Novo Produto</h2>
+            </div>
+            
+            <form id="productForm" class="product-form">
+                <input type="hidden" id="productId">
+                
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="productName" class="form-label">Nome do Produto *</label>
+                        <input type="text" id="productName" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="productCategory" class="form-label">Categoria *</label>
+                        <select id="productCategory" class="form-control" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="camisas">Camisas</option>
+                            <option value="moletons">Moletons</option>
+                            <option value="calcas">Calças</option>
+                            <option value="blusas">Blusas</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="productPrice" class="form-label">Preço (€) *</label>
+                        <input type="number" id="productPrice" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="productStock" class="form-label">Quantidade em Estoque</label>
+                        <input type="number" id="productStock" class="form-control" min="0" value="1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productDescription" class="form-label">Descrição</label>
+                    <textarea id="productDescription" class="form-control" rows="4"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="productImage" class="form-label">Imagem do Produto</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="productImage" class="form-control" accept="image/*">
+                            <p class="help-text">Formatos aceitos: JPG, PNG, GIF. Tamanho máximo: 5MB.</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="image-preview-container">
+                            <img id="imagePreview" src="../images/no-image.png" alt="Pré-visualização">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" id="productAvailable" class="form-check-input" checked>
+                        <label for="productAvailable" class="form-check-label">Produto disponível para venda</label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="window.location.href='products.html'">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="saveButton">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 EB Fashion. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se o usuário está logado
+            if (!isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Verificar se é edição ou adição
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (productId) {
+                // Modo de edição
+                document.getElementById('formTitle').textContent = 'Editar Produto';
+                document.getElementById('saveButton').textContent = 'Atualizar Produto';
+                loadProductForEdit(productId);
+            }
+            
+            // Preview da imagem
+            document.getElementById('productImage').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.getElementById('imagePreview').src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Submissão do formulário
+            document.getElementById('productForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveProduct();
+            });
+        });
+    </script>
+</body>
+</html>
