@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Fashion - Carrinho de Compras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="EB Fashion Logo">
+                    <h1>EB Fashion</h1>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="products.html">Produtos</a></li>
+                    <li><a href="about.html">Sobre Nós</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                    <li><a href="cart.html" class="active"><i class="fas fa-shopping-cart"></i> Carrinho <span id="cartItemCount" class="cart-count">0</span></a></li>
+                    <li><a href="admin/login.html"><i class="fas fa-user"></i> Área Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="cart-header">
+        <div class="container">
+            <div class="section-title">
+                <h2>Seu Carrinho</h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="cart-content">
+        <div class="container">
+            <div id="emptyCart" style="display: none;">
+                <div class="empty-cart-message">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Seu carrinho está vazio</h3>
+                    <p>Adicione produtos ao seu carrinho para continuar.</p>
+                    <a href="products.html" class="btn">Continuar Comprando</a>
+                </div>
+            </div>
+
+            <div id="cartContent" style="display: none;">
+                <div class="cart-items">
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Nome</th>
+                                <th>Preço</th>
+                                <th>Quantidade</th>
+                                <th>Total</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cartItemsList">
+                            <!-- Itens do carrinho serão carregados via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="cart-totals">
+                        <h3>Resumo do Pedido</h3>
+                        <div class="cart-total-row">
+                            <span>Subtotal:</span>
+                            <span id="cartSubtotal">R$ 0,00</span>
+                        </div>
+                        <div class="cart-total-row">
+                            <span>Total:</span>
+                            <span id="cartTotal">R$ 0,00</span>
+                        </div>
+                        <button id="checkoutBtn" class="btn btn-block">Finalizar Compra</button>
+                        <a href="products.html" class="btn btn-outline btn-block">Continuar Comprando</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Cadastro para Finalização -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Finalizar Compra</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Por favor, preencha seus dados para finalizar a compra:</p>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="customerName" class="form-label">Nome Completo *</label>
+                        <input type="text" id="customerName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone" class="form-label">Celular para Contato *</label>
+                        <input type="tel" id="customerPhone" class="form-control" placeholder="Ex: 54 991686874" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerSize" class="form-label">Tamanho (opcional)</label>
+                        <select id="customerSize" class="form-control">
+                            <option value="">Selecione um tamanho</option>
+                            <option value="PP">PP</option>
+                            <option value="P">P</option>
+                            <option value="M">M</option>
+                            <option value="G">G</option>
+                            <option value="GG">GG</option>
+                            <option value="XG">XG</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerNotes" class="form-label">Observações (opcional)</label>
+                        <textarea id="customerNotes" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeCheckoutModal()">Cancelar</button>
+                <button class="btn" id="confirmCheckout">Confirmar Pedido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Pedido -->
+    <div id="orderConfirmationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Pedido Realizado com Sucesso!</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="order-confirmation">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Obrigado pela sua compra!</h4>
+                    <p>Seu pedido foi registrado com sucesso. Entraremos em contato em breve para confirmar os detalhes.</p>
+                    <div class="order-details">
+                        <p><strong>Número do Pedido:</strong> <span id="orderNumber"></span></p>
+                        <p><strong>Data:</strong> <span id="orderDate"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeOrderConfirmationModal()">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="EB Fashion Logo">
+                    <p>A sua loja de moda exclusiva com as melhores tendências e qualidade.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="products.html">Produtos</a></li>
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categorias</h4>
+                    <ul>
+                        <li><a href="products.html?category=camisas">Camisas</a></li>
+                        <li><a href="products.html?category=moletons">Moletons</a></li>
+                        <li><a href="products.html?category=calcas">Calças</a></li>
+                        <li><a href="products.html?category=blusas">Blusas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Online</li>
+                        <li><i class="fas fa-phone"></i> 54 991686874</li>
+                        <li><i class="fas fa-envelope"></i> info@ebfashion.pt</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EB Fashion. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar itens do carrinho
+            loadCartItems();
+            
+            // Adicionar event listeners
+            document.getElementById('checkoutBtn').addEventListener('click', openCheckoutModal);
+            document.getElementById('confirmCheckout').addEventListener('click', processOrder);
+            
+            // Configurar fechamento dos modais
+            const closeButtons = document.querySelectorAll('.close-modal');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('checkoutModal').style.display = 'none';
+                    document.getElementById('orderConfirmationModal').style.display = 'none';
+                });
+            });
+        });
+        
+        // Carregar itens do carrinho
+        function loadCartItems() {
+            const cartItems = getCartItems();
+            const cartItemsList = document.getElementById('cartItemsList');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartContent = document.getElementById('cartContent');
+            
+            if (cartItems.length === 0) {
+                emptyCart.style.display = 'block';
+                cartContent.style.display = 'none';
+                return;
+            }
+            
+            emptyCart.style.display = 'none';
+            cartContent.style.display = 'block';
+            
+            cartItemsList.innerHTML = '';
+            let subtotal = 0;
+            
+            cartItems.forEach(item => {
+                const product = getProductById(item.id);
+                if (!product) return;
+                
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                    </td>
+                    <td>${item.name}</td>
+                    <td>${item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                    <td>
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="updateCartItemQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateCartItemQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                        </div>
+                    </td>
+                    <td>${itemTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                    <td>
+                        <button class="btn btn-sm btn-delete" onclick="removeFromCart('${item.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                cartItemsList.appendChild(row);
+            });
+            
+            // Atualizar totais
+            document.getElementById('cartSubtotal').textContent = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('cartTotal').textContent = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+        
+        // Atualizar quantidade de item no carrinho
+        function updateCartItemQuantity(productId, newQuantity) {
+            if (newQuantity < 1) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const cartItems = getCartItems();
+            const itemIndex = cartItems.findIndex(item => item.id === productId);
+            
+            if (itemIndex > -1) {
+                const product = getProductById(productId);
+                if (product && newQuantity > product.stock) {
+                    alert(`Quantidade máxima disponível: ${product.stock}`);
+                    newQuantity = product.stock;
+                }
+                
+                cartItems[itemIndex].quantity = newQuantity;
+                saveCartItems(cartItems);
+                loadCartItems();
+                updateCartCount();
+            }
+        }
+        
+        // Remover item do carrinho
+        function removeFromCart(productId) {
+            let cartItems = getCartItems();
+            cartItems = cartItems.filter(item => item.id !== productId);
+            saveCartItems(cartItems);
+            loadCartItems();
+            updateCartCount();
+        }
+        
+        // Abrir modal de checkout
+        function openCheckoutModal() {
+            const cartItems = getCartItems();
+            if (cartItems.length === 0) {
+                alert('Seu carrinho está vazio.');
+                return;
+            }
+            
+            document.getElementById('checkoutModal').style.display = 'block';
+        }
+        
+        // Fechar modal de checkout
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+        
+        // Processar pedido
+        function processOrder() {
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const customerSize = document.getElementById('customerSize').value;
+            const customerNotes = document.getElementById('customerNotes').value;
+            
+            if (!customerName || !customerPhone) {
+                alert('Por favor, preencha os campos obrigatórios.');
+                return;
+            }
+            
+            const cartItems = getCartItems();
+            if (cartItems.length === 0) {
+                alert('Seu carrinho está vazio.');
+                return;
+            }
+            
+            // Criar objeto de pedido
+            const order = {
+                id: generateId(),
+                customer: {
+                    name: customerName,
+                    phone: customerPhone,
+                    size: customerSize,
+                    notes: customerNotes
+                },
+                items: cartItems,
+                total: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                date: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            // Salvar pedido
+            saveOrder(order);
+            
+            // Limpar carrinho
+            saveCartItems([]);
+            updateCartCount();
+            
+            // Mostrar confirmação
+            closeCheckoutModal();
+            showOrderConfirmation(order);
+        }
+        
+        // Mostrar confirmação de pedido
+        function showOrderConfirmation(order) {
+            document.getElementById('orderNumber').textContent = order.id;
+            document.getElementById('orderDate').textContent = new Date(order.date).toLocaleDateString('pt-BR');
+            document.getElementById('orderConfirmationModal').style.display = 'block';
+        }
+        
+        // Fechar modal de confirmação de pedido
+        function closeOrderConfirmationModal() {
+            document.getElementById('orderConfirmationModal').style.display = 'none';
+            window.location.href = 'index.html'; // Redirecionar para a página inicial
+        }
+        
+        // Salvar pedido
+        function saveOrder(order) {
+            let orders = localStorage.getItem('ebfashion_orders');
+            orders = orders ? JSON.parse(orders) : [];
+            orders.push(order);
+            localStorage.setItem('ebfashion_orders', JSON.stringify(orders));
+        }
+    </script>
+</body>
+</html>
