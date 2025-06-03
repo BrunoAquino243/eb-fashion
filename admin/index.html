@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Fashion - Área Administrativa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="EB Fashion Logo">
+                    <h1>EB Fashion - Admin</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Ver Loja</a></li>
+                    <li><a href="javascript:void(0);" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="admin-container container">
+        <div class="admin-sidebar">
+            <ul class="admin-menu">
+                <li><a href="index.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="products.html"><i class="fas fa-tshirt"></i> Produtos</a></li>
+                <li><a href="add-product.html"><i class="fas fa-plus"></i> Adicionar Produto</a></li>
+                <li><a href="categories.html"><i class="fas fa-tags"></i> Categorias</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Pedidos</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Configurações</a></li>
+            </ul>
+        </div>
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2 class="admin-title">Dashboard</h2>
+                <div class="admin-actions">
+                    <a href="add-product.html" class="btn"><i class="fas fa-plus"></i> Novo Produto</a>
+                </div>
+            </div>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total de Produtos</h3>
+                        <p id="totalProducts">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Categorias</h3>
+                        <p id="totalCategories">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Pedidos</h3>
+                        <p id="totalOrders">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Visualizações</h3>
+                        <p id="totalViews">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-recent">
+                <h3>Produtos Recentes</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Imagem</th>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentProductsTable">
+                            <!-- Produtos recentes serão carregados via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="dashboard-recent">
+                <h3>Pedidos Recentes</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Data</th>
+                                <th>Itens</th>
+                                <th>Total</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrdersTable">
+                            <!-- Pedidos recentes serão carregados via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="view-all-link">
+                    <a href="orders.html" class="btn btn-outline">Ver Todos os Pedidos</a>
+                </div>
+            </div>
+            
+            <div class="dashboard-export">
+                <h3>Backup e Exportação</h3>
+                <p>Faça backup dos seus dados para usar em outros dispositivos ou para segurança.</p>
+                <div class="export-actions">
+                    <button class="btn" onclick="exportData()"><i class="fas fa-download"></i> Exportar Dados</button>
+                    <label for="importFile" class="btn btn-outline"><i class="fas fa-upload"></i> Importar Dados</label>
+                    <input type="file" id="importFile" style="display: none;" onchange="importData(this)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 EB Fashion. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se o usuário está logado
+            if (!isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Carregar estatísticas do dashboard
+            loadDashboardStats();
+            
+            // Carregar produtos recentes
+            loadRecentProducts();
+            
+            // Carregar pedidos recentes
+            loadRecentOrders();
+        });
+        
+        // Função para carregar pedidos recentes
+        function loadRecentOrders() {
+            const recentOrdersTable = document.getElementById("recentOrdersTable");
+            if (!recentOrdersTable) return;
+            
+            const orders = getOrders(); // Função de main.js
+            
+            // Ordenar por data (mais recentes primeiro)
+            orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Limitar a 5 pedidos mais recentes
+            const recentOrders = orders.slice(0, 5);
+            
+            if (recentOrders.length === 0) {
+                recentOrdersTable.innerHTML = "<tr><td colspan=\"6\">Nenhum pedido registrado.</td></tr>";
+                document.getElementById("totalOrders").textContent = "0";
+                return;
+            }
+            
+            document.getElementById("totalOrders").textContent = orders.length;
+            recentOrdersTable.innerHTML = "";
+            
+            recentOrders.forEach(order => {
+                const row = document.createElement("tr");
+                
+                // Formatar data
+                const orderDate = new Date(order.date);
+                const formattedDate = orderDate.toLocaleDateString('pt-BR');
+                
+                // Calcular valor total
+                const totalValue = order.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+                
+                row.innerHTML = `
+                    <td>${order.id.substring(0, 8)}...</td>
+                    <td>${order.customer.name}</td>
+                    <td>${formattedDate}</td>
+                    <td>${order.items.length} item(ns)</td>
+                    <td>${totalValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="orders.html?id=${order.id}" class="btn btn-sm"><i class="fas fa-eye"></i></a>
+                        </div>
+                    </td>
+                `;
+                
+                recentOrdersTable.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
