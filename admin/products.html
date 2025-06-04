@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Fashion - Gerir Produtos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="EB Fashion Logo">
+                    <h1>EB Fashion - Admin</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Ver Loja</a></li>
+                    <li><a href="javascript:void(0);" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="admin-container container">
+        <div class="admin-sidebar">
+            <ul class="admin-menu">
+                <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="products.html" class="active"><i class="fas fa-tshirt"></i> Produtos</a></li>
+                <li><a href="add-product.html"><i class="fas fa-plus"></i> Adicionar Produto</a></li>
+                <li><a href="categories.html"><i class="fas fa-tags"></i> Categorias</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Pedidos</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Configurações</a></li>
+            </ul>
+        </div>
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2 class="admin-title">Gerir Produtos</h2>
+                <div class="admin-actions">
+                    <a href="add-product.html" class="btn"><i class="fas fa-plus"></i> Novo Produto</a>
+                </div>
+            </div>
+            
+            <div class="products-filters">
+                <div class="filter-group">
+                    <label for="filterCategory">Categoria:</label>
+                    <select id="filterCategory" class="form-control">
+                        <option value="all">Todas</option>
+                        <!-- Categorias serão carregadas dinamicamente -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="searchProduct">Pesquisar:</label>
+                    <input type="text" id="searchProduct" class="form-control" placeholder="Nome do produto...">
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Disponível</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTable">
+                        <!-- Produtos serão carregados via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="noProductsMessage" style="display: none; text-align: center; padding: 20px;">
+                <p>Nenhum produto encontrado. <a href="add-product.html">Adicionar um produto</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação para exclusão -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar Exclusão</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeDeleteModal()">Cancelar</button>
+                <button class="btn btn-danger" id="confirmDelete">Sim, Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 EB Fashion. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se o usuário está logado
+            if (!isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Carregar categorias para o filtro
+            loadCategoriesForFilter();
+            
+            // Carregar produtos
+            loadProductsTable();
+            
+            // Adicionar event listeners para filtros
+            document.getElementById('filterCategory').addEventListener('change', loadProductsTable);
+            document.getElementById('searchProduct').addEventListener('input', loadProductsTable);
+        });
+        
+        // Função para carregar categorias no filtro
+        function loadCategoriesForFilter() {
+            const filterCategory = document.getElementById('filterCategory');
+            if (!filterCategory) return;
+            
+            const categories = getCategories();
+            
+            // Manter a opção "Todas"
+            while (filterCategory.options.length > 1) {
+                filterCategory.remove(1);
+            }
+            
+            // Adicionar categorias
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.slug;
+                option.textContent = category.name;
+                filterCategory.appendChild(option);
+            });
+        }
+    </script>
+</body>
+</html>
