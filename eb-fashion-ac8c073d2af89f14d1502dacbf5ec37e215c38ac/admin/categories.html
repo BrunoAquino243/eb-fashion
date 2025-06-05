@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Fashion - Gerir Categorias</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .category-image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .category-image-container {
+            margin-bottom: 15px;
+        }
+        
+        .category-table-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="EB Fashion Logo">
+                    <h1>EB Fashion - Admin</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Ver Loja</a></li>
+                    <li><a href="javascript:void(0);" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="admin-container container">
+        <div class="admin-sidebar">
+            <ul class="admin-menu">
+                <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="products.html"><i class="fas fa-tshirt"></i> Produtos</a></li>
+                <li><a href="add-product.html"><i class="fas fa-plus"></i> Adicionar Produto</a></li>
+                <li><a href="categories.html" class="active"><i class="fas fa-tags"></i> Categorias</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Pedidos</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Configurações</a></li>
+            </ul>
+        </div>
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2 class="admin-title">Gerir Categorias</h2>
+            </div>
+
+            <div class="category-form-container card">
+                <h3 id="categoryFormTitle">Adicionar Nova Categoria</h3>
+                <form id="categoryForm" onsubmit="event.preventDefault(); saveCategory();">
+                    <input type="hidden" id="categorySlug"> <!-- Para guardar o slug ao editar -->
+                    <div class="form-group">
+                        <label for="categoryName" class="form-label">Nome da Categoria *</label>
+                        <input type="text" id="categoryName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryImage" class="form-label">Imagem da Categoria</label>
+                        <input type="file" id="categoryImage" class="form-control" accept="image/*" onchange="previewCategoryImage(this)">
+                        <div class="category-image-container">
+                            <img id="categoryImagePreview" class="category-image-preview" src="../images/products/no-image.png" alt="Prévia da imagem">
+                        </div>
+                        <small>Recomendado: imagem quadrada de pelo menos 300x300 pixels</small>
+                    </div>
+                    <button type="submit" id="saveCategoryBtn" class="btn">Adicionar Categoria</button>
+                </form>
+            </div>
+
+            <div class="table-responsive card">
+                 <h3>Categorias Existentes</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome</th>
+                            <th>Slug (Identificador)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoriesTable">
+                        <!-- Categorias serão carregadas via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 EB Fashion. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script> <!-- Precisa das funções getCategories, saveCategories, etc. -->
+    <script src="js/admin.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Verificar se o usuário está logado
+            if (!isLoggedIn()) {
+                window.location.href = "login.html";
+                return;
+            }
+            // Carregar a tabela de categorias ao carregar a página
+            loadCategoriesTable();
+        });
+        
+        // Função para pré-visualizar a imagem da categoria
+        function previewCategoryImage(input) {
+            const preview = document.getElementById('categoryImagePreview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '../images/products/no-image.png';
+            }
+        }
+        
+        // Sobrescrever a função loadCategoriesTable para incluir imagens
+        function loadCategoriesTable() {
+            const categoriesTable = document.getElementById('categoriesTable');
+            if (!categoriesTable) return;
+            
+            const categories = getCategories();
+            categoriesTable.innerHTML = '';
+            
+            categories.forEach(category => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <img src="${category.image || '../images/products/no-image.png'}" 
+                             alt="${category.name}" 
+                             class="category-table-image" 
+                             onerror="this.src='../images/products/no-image.png'">
+                    </td>
+                    <td>${category.name}</td>
+                    <td>${category.slug}</td>
+                    <td>
+                        <button class="btn btn-sm btn-edit" onclick="editCategory('${category.slug}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-delete" onclick="deleteCategory('${category.slug}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                categoriesTable.appendChild(row);
+            });
+        }
+        
+        // Sobrescrever a função editCategory para incluir imagem
+        function editCategory(slug) {
+            const categories = getCategories();
+            const category = categories.find(cat => cat.slug === slug);
+            
+            if (category) {
+                document.getElementById('categoryFormTitle').textContent = 'Editar Categoria';
+                document.getElementById('categoryName').value = category.name;
+                document.getElementById('categorySlug').value = category.slug;
+                document.getElementById('categoryImagePreview').src = category.image || '../images/products/no-image.png';
+                document.getElementById('saveCategoryBtn').textContent = 'Atualizar Categoria';
+            }
+        }
+        
+        // Sobrescrever a função saveCategory para incluir imagem
+        function saveCategory() {
+            const nameInput = document.getElementById('categoryName');
+            const slugInput = document.getElementById('categorySlug');
+            const imageInput = document.getElementById('categoryImage');
+            const imagePreview = document.getElementById('categoryImagePreview');
+            
+            if (!nameInput.value.trim()) {
+                alert('Por favor, insira um nome para a categoria.');
+                return;
+            }
+            
+            const categories = getCategories();
+            const name = nameInput.value.trim();
+            let slug = slugInput.value.trim();
+            const isEditing = !!slug;
+            
+            // Se não estiver editando, gerar um novo slug
+            if (!isEditing) {
+                slug = name.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-');
+                
+                // Verificar se o slug já existe
+                if (categories.some(cat => cat.slug === slug)) {
+                    alert('Já existe uma categoria com este nome. Por favor, escolha outro nome.');
+                    return;
+                }
+            }
+            
+            // Preparar objeto da categoria
+            const category = {
+                name: name,
+                slug: slug,
+                image: imagePreview.src.startsWith('data:') ? imagePreview.src : (isEditing ? categories.find(cat => cat.slug === slug)?.image || null : null)
+            };
+            
+            if (isEditing) {
+                // Atualizar categoria existente
+                const index = categories.findIndex(cat => cat.slug === slug);
+                if (index > -1) {
+                    categories[index] = category;
+                }
+            } else {
+                // Adicionar nova categoria
+                categories.push(category);
+            }
+            
+            // Salvar categorias
+            saveCategories(categories);
+            
+            // Resetar formulário
+            document.getElementById('categoryForm').reset();
+            document.getElementById('categoryFormTitle').textContent = 'Adicionar Nova Categoria';
+            document.getElementById('categorySlug').value = '';
+            document.getElementById('categoryImagePreview').src = '../images/products/no-image.png';
+            document.getElementById('saveCategoryBtn').textContent = 'Adicionar Categoria';
+            
+            // Recarregar tabela
+            loadCategoriesTable();
+            
+            // Notificar usuário
+            alert(isEditing ? 'Categoria atualizada com sucesso!' : 'Categoria adicionada com sucesso!');
+        }
+        
+        // Sobrescrever a função deleteCategory para confirmar antes de excluir
+        function deleteCategory(slug) {
+            if (!confirm('Tem certeza que deseja excluir esta categoria? Esta ação não pode ser desfeita.')) {
+                return;
+            }
+            
+            const categories = getCategories();
+            const filteredCategories = categories.filter(cat => cat.slug !== slug);
+            
+            if (categories.length === filteredCategories.length) {
+                alert('Categoria não encontrada.');
+                return;
+            }
+            
+            saveCategories(filteredCategories);
+            loadCategoriesTable();
+            alert('Categoria excluída com sucesso!');
+        }
+    </script>
+</body>
+</html>

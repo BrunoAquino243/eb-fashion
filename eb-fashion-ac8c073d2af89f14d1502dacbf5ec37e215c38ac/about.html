@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Fashion - Sobre Nós</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="EB Fashion Logo">
+                    <h1>EB Fashion</h1>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="products.html">Produtos</a></li>
+                    <li><a href="about.html" class="active">Sobre Nós</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Carrinho <span id="cartItemCount" class="cart-count">0</span></a></li>
+                    <li><a href="admin/login.html"><i class="fas fa-user"></i> Área Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="about-hero">
+        <div class="container">
+            <h1>Sobre a EB Fashion</h1>
+            <p>Conheça nossa história, valores e compromisso com a moda de qualidade.</p>
+        </div>
+    </section>
+
+    <section class="about-content">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>Nossa História</h2>
+                    <p>A EB Fashion nasceu da paixão por moda e do desejo de oferecer peças de qualidade a preços acessíveis. Fundada em 2020, nossa marca tem crescido constantemente, sempre com o compromisso de proporcionar uma experiência de compra excepcional.</p>
+                    
+                    <p>Começamos como uma pequena loja online e hoje atendemos clientes em todo o Brasil, mantendo sempre o atendimento personalizado e o cuidado com cada detalhe das nossas peças.</p>
+                    
+                    <h2>Nossa Missão</h2>
+                    <p>Proporcionar moda de qualidade que valorize a individualidade de cada cliente, com peças que combinam estilo, conforto e durabilidade, sempre com preços justos e atendimento excepcional.</p>
+                    
+                    <h2>Nossos Valores</h2>
+                    <ul>
+                        <li><strong>Qualidade:</strong> Selecionamos cuidadosamente cada peça e material.</li>
+                        <li><strong>Transparência:</strong> Mantemos uma comunicação clara e honesta com nossos clientes.</li>
+                        <li><strong>Inovação:</strong> Buscamos constantemente novas tendências e tecnologias.</li>
+                        <li><strong>Sustentabilidade:</strong> Comprometidos com práticas responsáveis e sustentáveis.</li>
+                        <li><strong>Atendimento:</strong> Valorizamos cada cliente e sua experiência conosco.</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="images/products/category-shirts.jpg" alt="EB Fashion Store" class="about-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="EB Fashion Logo">
+                    <p>A sua loja de moda exclusiva com as melhores tendências e qualidade.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="products.html">Produtos</a></li>
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categorias</h4>
+                    <ul id="categoryLinks">
+                        <!-- Categorias serão carregadas dinamicamente -->
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Online</li>
+                        <li><i class="fas fa-phone"></i> 54 991686874</li>
+                        <li><i class="fas fa-envelope"></i> info@ebfashion.pt</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EB Fashion. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Atualizar contador do carrinho
+            updateCartCount();
+            
+            // Carregar categorias no footer
+            loadCategoriesInNavigation();
+        });
+    </script>
+</body>
+</html>
