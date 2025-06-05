@@ -199,300 +199,165 @@ function initDemoData() {
     // Produtos de demonstração
     const demoProducts = [
         {
-            id: generateId(),
-            name: 'Camisa Casual Azul',
-            description: 'Camisa casual em algodão de alta qualidade, perfeita para o dia a dia ou ocasiões informais.',
-            price: 39.99,
+            id: 'demo1',
+            name: 'Camisa Lisa Azul',
+            price: 95.00,
             category: 'camisas',
-            image: DEMO_IMAGES[0],
-            stock: 15,
-            available: true,
-            featured: true,
-            sizes: ['P', 'M', 'G', 'GG'],
-            sizeType: 'letter', // Tipo de tamanho: letra
-            createdAt: new Date().toISOString()
-        },
-        {
-            id: generateId(),
-            name: 'Moletom Cinza Básico',
-            description: 'Moletom confortável e quente, ideal para os dias mais frios. Tecido macio e durável.',
-            price: 59.99,
-            category: 'moletons',
-            image: DEMO_IMAGES[1],
+            description: 'Camisa lisa azul de algodão, confortável e elegante para diversas ocasiões.',
+            image: 'images/products/camisa1.jpg',
             stock: 10,
-            available: true,
-            featured: true,
-            sizes: ['P', 'M', 'G', 'GG'],
-            sizeType: 'letter', // Tipo de tamanho: letra
-            createdAt: new Date().toISOString()
+            sizes: ['P', 'M', 'G', 'GG']
         },
         {
-            id: generateId(),
-            name: 'Calça Jeans Slim',
-            description: 'Calça jeans de corte slim, moderna e confortável. Combina com diversos estilos.',
-            price: 79.99,
-            category: 'calcas',
-            image: DEMO_IMAGES[2],
-            stock: 8,
-            available: true,
-            featured: false,
-            sizes: ['38', '40', '42', '44'],
-            sizeType: 'number', // Tipo de tamanho: número
-            createdAt: new Date().toISOString()
-        },
-        {
-            id: generateId(),
-            name: 'Blusa Feminina Floral',
-            description: 'Blusa leve com estampa floral, perfeita para a primavera e verão.',
-            price: 45.99,
-            category: 'blusas',
-            image: DEMO_IMAGES[3],
-            stock: 12,
-            available: true,
-            featured: true,
-            sizes: ['P', 'M', 'G'],
-            sizeType: 'letter', // Tipo de tamanho: letra
-            createdAt: new Date().toISOString()
-        },
-        {
-            id: generateId(),
-            name: 'Camisa Social Branca',
-            description: 'Camisa social de algodão egípcio, ideal para ocasiões formais e ambiente de trabalho.',
-            price: 69.99,
-            category: 'camisas',
-            image: DEMO_IMAGES[4],
-            stock: 7,
-            available: true,
-            featured: false,
-            sizes: ['P', 'M', 'G', 'GG'],
-            sizeType: 'letter', // Tipo de tamanho: letra
-            createdAt: new Date().toISOString()
-        },
-        {
-            id: generateId(),
-            name: 'Moletom com Capuz Preto',
-            description: 'Moletom com capuz e bolso canguru, perfeito para um visual descontraído e confortável.',
-            price: 65.99,
+            id: 'demo2',
+            name: 'Moletom Adidas',
+            price: 150.00,
             category: 'moletons',
-            image: DEMO_IMAGES[5],
-            stock: 9,
-            available: true,
-            featured: false,
-            sizes: ['P', 'M', 'G', 'GG'],
-            sizeType: 'letter', // Tipo de tamanho: letra
-            createdAt: new Date().toISOString()
+            description: 'Moletom Adidas preto com listras brancas, perfeito para dias frios.',
+            image: 'images/products/moletom1.jpg',
+            stock: 8,
+            sizes: ['P', 'M', 'G']
         },
         {
-            id: generateId(),
-            name: 'Calça de Alfaiataria',
-            description: 'Calça de alfaiataria elegante e versátil, perfeita para ocasiões que exigem um visual mais sofisticado.',
-            price: 89.99,
+            id: 'demo3',
+            name: 'Calça Jeans Slim',
+            price: 120.00,
             category: 'calcas',
-            image: DEMO_IMAGES[6],
-            stock: 5,
-            available: true,
-            featured: false,
-            sizes: ['38', '40', '42', '44'],
-            sizeType: 'number', // Tipo de tamanho: número
-            createdAt: new Date().toISOString()
+            description: 'Calça jeans slim fit, moderna e confortável para o dia a dia.',
+            image: 'images/products/calca1.jpg',
+            stock: 15,
+            sizes: ['38', '40', '42', '44']
         },
         {
-            id: generateId(),
-            name: 'Blusa de Seda',
-            description: 'Blusa de seda com acabamento premium, elegante e confortável para diversas ocasiões.',
-            price: 99.99,
+            id: 'demo4',
+            name: 'Blusa Feminina',
+            price: 85.00,
             category: 'blusas',
-            image: DEMO_IMAGES[7],
-            stock: 4,
-            available: true,
-            featured: true,
-            sizes: ['P', 'M', 'G'],
-            sizeType: 'letter', // Tipo de tamanho: letra
-            createdAt: new Date().toISOString()
+            description: 'Blusa feminina leve e elegante, ideal para o verão.',
+            image: 'images/products/blusa1.jpg',
+            stock: 12,
+            sizes: ['P', 'M', 'G']
         },
         {
-            id: generateId(),
-            name: 'Boné Preto Básico',
-            description: 'Boné preto básico, ajustável e confortável para o dia a dia.',
-            price: 29.99,
+            id: 'demo5',
+            name: 'Camisa Teste',
+            price: 75.00,
+            category: 'camisas',
+            description: 'Camisa teste para demonstração.',
+            image: 'images/products/camisa2.jpg',
+            stock: 5,
+            sizes: ['P', 'M', 'G']
+        },
+        {
+            id: 'demo6',
+            name: 'Tênis Nike Air Frce',
+            price: 300.00,
+            category: 'tenis',
+            description: 'Tênis Nike Air Force preto, confortável e estiloso.',
+            image: 'images/products/tenis1.jpg',
+            stock: 7,
+            sizes: ['38', '40', '42', '44']
+        },
+        {
+            id: 'demo7',
+            name: 'Boné Internacional',
+            price: 30.00,
             category: 'bone',
-            image: 'images/products/no-image.png',
+            description: 'Boné oficial do Internacional, vermelho com logo do clube.',
+            image: 'images/products/bone1.jpg',
             stock: 20,
-            available: true,
-            featured: false,
-            sizes: ['Único'],
-            sizeType: 'letter', // Tipo de tamanho: letra
-            createdAt: new Date().toISOString()
+            sizes: ['Único']
         }
     ];
     
+    // Salvar produtos de demonstração
     saveProducts(demoProducts);
 }
 
-// Carregar produtos em destaque na página inicial
-function loadFeaturedProducts() {
-    const featuredContainer = document.getElementById('featuredProducts');
-    if (!featuredContainer) return;
-    
-    const products = getProducts();
-    const featuredProducts = products.filter(product => product.featured && product.available);
-    
-    if (featuredProducts.length === 0) {
-        featuredContainer.innerHTML = '<p class="no-products">Não há produtos em destaque no momento.</p>';
-        return;
-    }
-    
-    featuredContainer.innerHTML = '';
-    
-    // Limitar a 4 produtos em destaque
-    const displayProducts = featuredProducts.slice(0, 4);
-    
-    displayProducts.forEach(product => {
-        const productCard = createProductCard(product);
-        featuredContainer.appendChild(productCard);
-    });
-}
-
-// Carregar todos os produtos na página de produtos
+// Carregar produtos na página de produtos
 function loadProducts() {
-    const productsGrid = document.getElementById('productsGrid');
-    if (!productsGrid) return;
+    const productGrid = document.getElementById('productGrid');
+    if (!productGrid) return;
     
-    const noProductsMessage = document.getElementById('noProducts');
+    // Limpar grid
+    productGrid.innerHTML = '';
     
-    // Obter filtros
-    const categoryFilter = document.getElementById('categoryFilter').value;
-    const sortFilter = document.getElementById('sortFilter').value;
-    
+    // Obter produtos
     let products = getProducts();
     
-    // Aplicar filtro de categoria
-    if (categoryFilter && categoryFilter !== 'all') {
-        products = products.filter(product => product.category === categoryFilter);
+    // Verificar filtro de categoria
+    const categoryFilter = document.getElementById('categoryFilter');
+    if (categoryFilter && categoryFilter.value !== 'all') {
+        products = products.filter(product => product.category === categoryFilter.value);
     }
     
-    // Filtrar apenas produtos disponíveis
-    products = products.filter(product => product.available);
-    
-    // Aplicar ordenação
-    switch (sortFilter) {
-        case 'price-asc':
-            products.sort((a, b) => a.price - b.price);
-            break;
-        case 'price-desc':
-            products.sort((a, b) => b.price - a.price);
-            break;
-        case 'name-asc':
-            products.sort((a, b) => a.name.localeCompare(b.name));
-            break;
-        case 'name-desc':
-            products.sort((a, b) => b.name.localeCompare(a.name));
-            break;
-        case 'newest':
-        default:
-            products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            break;
-    }
-    
-    // Exibir mensagem se não houver produtos
+    // Verificar se há produtos
     if (products.length === 0) {
-        productsGrid.innerHTML = '';
-        if (noProductsMessage) {
-            noProductsMessage.style.display = 'block';
-        }
+        productGrid.innerHTML = '<div class="no-products">Nenhum produto encontrado.</div>';
         return;
     }
     
-    if (noProductsMessage) {
-        noProductsMessage.style.display = 'none';
-    }
-    
-    productsGrid.innerHTML = '';
-    
+    // Renderizar produtos
     products.forEach(product => {
-        const productCard = createProductCard(product);
-        productsGrid.appendChild(productCard);
-    });
-}
-
-// Função para obter a imagem correta do produto (seja local ou base64)
-function getProductImage(product) {
-    if (!product || !product.image) {
-        return 'images/products/no-image.png';
-    }
-    
-    // Se a imagem já é base64, retornar diretamente
-    if (product.image.startsWith('data:')) {
-        return product.image;
-    }
-    
-    // Se não for base64, usar o caminho normal
-    return product.image;
-}
-
-// Criar card de produto
-function createProductCard(product) {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    
-    // Obter a imagem correta (local ou base64)
-    const imagePath = getProductImage(product);
-    
-    card.innerHTML = `
-        <a href="product-details.html?id=${product.id}">
-            <img src="${imagePath}" alt="${product.name}" class="product-img" onerror="this.src='images/products/no-image.png'">
-            <div class="product-info">
-                <div class="product-category">${getCategoryName(product.category)}</div>
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        
+        // Verificar se a imagem existe, caso contrário usar imagem padrão
+        const imagePath = product.image || 'images/products/no-image.png';
+        
+        productCard.innerHTML = `
+            <div class="product-image">
+                <img src="${imagePath}" alt="${product.name}" onerror="this.src='images/products/no-image.png'">
             </div>
-        </a>
-        <button class="btn view-details-btn" onclick="window.location.href='product-details.html?id=${product.id}'">Ver Detalhes</button>
-    `;
-    
-    return card;
+            <div class="product-category">${getCategoryName(product.category)}</div>
+            <h3 class="product-name">${product.name}</h3>
+            <div class="product-price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
+            <a href="product-details.html?id=${product.id}" class="btn">Ver Detalhes</a>
+        `;
+        
+        productGrid.appendChild(productCard);
+    });
 }
 
 // Carregar detalhes do produto na página de detalhes
-function loadProductDetails() {
-    const productContainer = document.getElementById('productDetails');
+function loadProductDetails(productId) {
+    const productContainer = document.getElementById('productContainer');
+    const productNotFound = document.getElementById('productNotFound');
+    
     if (!productContainer) return;
-    
-    // Obter ID do produto da URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-    
-    if (!productId) {
-        productContainer.innerHTML = '<p class="error-message">Produto não encontrado.</p>';
-        return;
-    }
     
     const product = getProductById(productId);
     
     if (!product) {
-        productContainer.innerHTML = '<p class="error-message">Produto não encontrado.</p>';
+        productContainer.style.display = 'none';
+        if (productNotFound) {
+            productNotFound.style.display = 'block';
+        }
         return;
     }
     
-    // Obter a imagem correta (local ou base64)
-    const imagePath = getProductImage(product);
+    // Verificar se a imagem existe, caso contrário usar imagem padrão
+    const imagePath = product.image || 'images/products/no-image.png';
     
-    // Atualizar título da página
-    document.title = `${product.name} - EB Fashion`;
-    
-    // Criar HTML para tamanhos disponíveis
+    // Gerar HTML para opções de tamanho
     let sizesHTML = '';
     if (product.sizes && product.sizes.length > 0) {
         sizesHTML = `
             <div class="product-sizes">
                 <label>Tamanho:</label>
                 <div class="size-options">
-                    ${product.sizes.map(size => `
-                        <div class="size-option">
-                            <input type="radio" name="size" id="size-${size}" value="${size}">
-                            <label for="size-${size}">${size}</label>
-                        </div>
-                    `).join('')}
+        `;
+        
+        product.sizes.forEach((size, index) => {
+            sizesHTML += `
+                <label class="size-option">
+                    <input type="radio" name="size" value="${size}" ${index === 0 ? 'checked' : ''}>
+                    <span>${size}</span>
+                </label>
+            `;
+        });
+        
+        sizesHTML += `
                 </div>
             </div>
         `;
@@ -699,31 +564,34 @@ function loadCartItems() {
         // Se o produto não existe mais, pular
         if (!product) return;
         
-        // Obter a imagem correta (local ou base64)
-        const imagePath = getProductImage(product);
-        
         const itemTotal = item.price * item.quantity;
         subtotal += itemTotal;
         
         const cartItem = document.createElement('div');
         cartItem.className = 'cart-item';
+        
+        // Verificar se a imagem existe, caso contrário usar imagem padrão
+        const imagePath = item.image || 'images/products/no-image.png';
+        
         cartItem.innerHTML = `
             <div class="cart-item-image">
                 <img src="${imagePath}" alt="${item.name}" onerror="this.src='images/products/no-image.png'">
             </div>
             <div class="cart-item-details">
-                <h3 class="cart-item-title">${item.name}</h3>
-                <p class="cart-item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</p>
-                ${item.size ? `<p class="cart-item-size">Tamanho: ${item.size}</p>` : ''}
+                <h3 class="cart-item-name">${item.name}</h3>
+                <div class="cart-item-meta">
+                    ${item.size ? `<span class="cart-item-size">Tamanho: ${item.size}</span>` : ''}
+                    <span class="cart-item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+                </div>
                 <div class="cart-item-quantity">
-                    <button class="quantity-btn minus" onclick="updateCartItemQuantity(${index}, -1)">-</button>
+                    <button type="button" class="quantity-btn" onclick="updateCartItemQuantity(${index}, -1)">-</button>
                     <span>${item.quantity}</span>
-                    <button class="quantity-btn plus" onclick="updateCartItemQuantity(${index}, 1)">+</button>
+                    <button type="button" class="quantity-btn" onclick="updateCartItemQuantity(${index}, 1)">+</button>
                 </div>
             </div>
             <div class="cart-item-total">
-                <p>R$ ${itemTotal.toFixed(2).replace('.', ',')}</p>
-                <button class="remove-item-btn" onclick="removeCartItem(${index})">
+                <span>R$ ${itemTotal.toFixed(2).replace('.', ',')}</span>
+                <button type="button" class="remove-btn" onclick="removeCartItem(${index})">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
@@ -732,13 +600,19 @@ function loadCartItems() {
         cartItemsContainer.appendChild(cartItem);
     });
     
-    // Atualizar resumo do carrinho
-    const shipping = subtotal > 0 ? 10 : 0; // Frete fixo de R$ 10
-    const total = subtotal + shipping;
+    // Atualizar subtotal
+    const subtotalElement = document.getElementById('subtotal');
+    if (subtotalElement) {
+        subtotalElement.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+    }
     
-    document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-    document.getElementById('shipping').textContent = shipping > 0 ? `R$ ${shipping.toFixed(2).replace('.', ',')}` : 'Grátis';
-    document.getElementById('total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    // Atualizar total
+    const totalElement = document.getElementById('total');
+    if (totalElement) {
+        // Adicionar frete ou outros custos aqui se necessário
+        const total = subtotal;
+        totalElement.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
 }
 
 // Atualizar quantidade de um item no carrinho
@@ -749,18 +623,16 @@ function updateCartItemQuantity(index, change) {
     
     cart[index].quantity += change;
     
-    // Garantir que a quantidade não seja menor que 1
-    if (cart[index].quantity < 1) {
-        cart[index].quantity = 1;
+    // Remover item se quantidade <= 0
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
     }
     
-    // Salvar carrinho atualizado
+    // Salvar carrinho
     saveCart(cart);
     
-    // Recarregar itens do carrinho
+    // Atualizar interface
     loadCartItems();
-    
-    // Atualizar contagem do carrinho
     updateCartCount();
 }
 
@@ -770,23 +642,24 @@ function removeCartItem(index) {
     
     if (index < 0 || index >= cart.length) return;
     
-    // Remover item
     cart.splice(index, 1);
     
-    // Salvar carrinho atualizado
+    // Salvar carrinho
     saveCart(cart);
     
-    // Recarregar itens do carrinho
+    // Atualizar interface
     loadCartItems();
-    
-    // Atualizar contagem do carrinho
     updateCartCount();
 }
 
 // Limpar carrinho
 function clearCart() {
+    // Confirmar com o usuário
     if (confirm('Tem certeza que deseja limpar o carrinho?')) {
+        // Limpar carrinho
         saveCart([]);
+        
+        // Atualizar interface
         loadCartItems();
         updateCartCount();
     }
@@ -801,44 +674,31 @@ function checkout() {
         return;
     }
     
-    // Obter dados do formulário
+    // Obter informações do cliente
     const name = document.getElementById('customerName').value;
     const phone = document.getElementById('customerPhone').value;
-    const size = document.getElementById('customerSize')?.value || '';
-    const notes = document.getElementById('orderNotes')?.value || '';
+    const notes = document.getElementById('orderNotes').value;
     
-    // Validar campos obrigatórios
     if (!name || !phone) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
+        alert('Por favor, preencha seu nome e telefone.');
         return;
     }
     
     // Calcular total
-    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-    const shipping = subtotal > 0 ? 10 : 0; // Frete fixo de R$ 10
-    const total = subtotal + shipping;
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     
     // Criar pedido
     const order = {
         id: 'ORD-' + generateId().substring(0, 8).toUpperCase(),
-        date: new Date().toISOString(),
+        date: new Date().toLocaleDateString(),
+        status: 'Pendente',
         customer: {
-            name,
-            phone,
-            size,
-            notes
+            name: name,
+            phone: phone,
+            notes: notes
         },
-        items: cart.map(item => ({
-            productId: item.productId,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-            size: item.size
-        })),
-        subtotal,
-        shipping,
-        total,
-        status: 'pending' // pending, completed, cancelled
+        items: cart,
+        total: total
     };
     
     // Salvar pedido
@@ -848,14 +708,18 @@ function checkout() {
     saveCart([]);
     
     // Redirecionar para página de confirmação
-    alert(`Pedido ${order.id} realizado com sucesso! Em breve entraremos em contato para confirmar os detalhes.`);
-    window.location.href = 'index.html';
+    window.location.href = 'order-confirmation.html?id=' + order.id;
 }
 
 // Salvar pedido
 function saveOrder(order) {
+    // Obter pedidos existentes
     const orders = getOrders();
+    
+    // Adicionar novo pedido
     orders.push(order);
+    
+    // Salvar pedidos
     localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
 }
 
@@ -865,11 +729,98 @@ function getOrders() {
     return orders ? JSON.parse(orders) : [];
 }
 
+// Obter pedido por ID
+function getOrderById(id) {
+    const orders = getOrders();
+    return orders.find(order => order.id === id);
+}
+
+// Carregar detalhes do pedido na página de confirmação
+function loadOrderConfirmation() {
+    const orderDetailsContainer = document.getElementById('orderDetails');
+    if (!orderDetailsContainer) return;
+    
+    // Obter ID do pedido da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('id');
+    
+    if (!orderId) {
+        orderDetailsContainer.innerHTML = '<p>Pedido não encontrado.</p>';
+        return;
+    }
+    
+    // Buscar pedido
+    const order = getOrderById(orderId);
+    
+    if (!order) {
+        orderDetailsContainer.innerHTML = '<p>Pedido não encontrado.</p>';
+        return;
+    }
+    
+    // Exibir detalhes do pedido
+    const orderIdElement = document.getElementById('orderId');
+    if (orderIdElement) {
+        orderIdElement.textContent = order.id;
+    }
+    
+    // Exibir itens do pedido
+    const orderItemsContainer = document.getElementById('orderItems');
+    if (orderItemsContainer) {
+        orderItemsContainer.innerHTML = '';
+        
+        order.items.forEach(item => {
+            const orderItem = document.createElement('div');
+            orderItem.className = 'order-item';
+            
+            orderItem.innerHTML = `
+                <div class="order-item-name">
+                    ${item.name} ${item.size ? `(${item.size})` : ''}
+                </div>
+                <div class="order-item-quantity">
+                    ${item.quantity}x
+                </div>
+                <div class="order-item-price">
+                    R$ ${item.price.toFixed(2).replace('.', ',')}
+                </div>
+                <div class="order-item-total">
+                    R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}
+                </div>
+            `;
+            
+            orderItemsContainer.appendChild(orderItem);
+        });
+    }
+    
+    // Exibir total do pedido
+    const orderTotalElement = document.getElementById('orderTotal');
+    if (orderTotalElement) {
+        orderTotalElement.textContent = `R$ ${order.total.toFixed(2).replace('.', ',')}`;
+    }
+    
+    // Exibir informações do cliente
+    const customerNameElement = document.getElementById('customerName');
+    if (customerNameElement) {
+        customerNameElement.textContent = order.customer.name;
+    }
+    
+    const customerPhoneElement = document.getElementById('customerPhone');
+    if (customerPhoneElement) {
+        customerPhoneElement.textContent = order.customer.phone;
+    }
+}
+
 // Incrementar contador de visualizações
 function incrementPageView() {
     let views = localStorage.getItem(VIEWS_KEY);
-    views = views ? parseInt(views) + 1 : 1;
+    views = views ? parseInt(views) : 0;
+    views++;
     localStorage.setItem(VIEWS_KEY, views);
+}
+
+// Obter total de visualizações
+function getTotalViews() {
+    const views = localStorage.getItem(VIEWS_KEY);
+    return views ? parseInt(views) : 0;
 }
 
 // Gerar ID único
@@ -877,36 +828,52 @@ function generateId() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
-// Inicializar páginas específicas
-document.addEventListener('DOMContentLoaded', function() {
-    // Página inicial
-    if (document.getElementById('featuredProducts')) {
-        loadFeaturedProducts();
+// Verificar se o usuário está logado como admin
+function isLoggedIn() {
+    const logged = localStorage.getItem('ebfashion_admin_logged');
+    if (!logged || logged !== 'true') {
+        return false;
     }
     
-    // Página de produtos
-    if (document.getElementById('productsGrid')) {
-        // Event listeners para filtros
-        document.getElementById('categoryFilter').addEventListener('change', loadProducts);
-        document.getElementById('sortFilter').addEventListener('change', loadProducts);
+    // Verificar tempo de login (expirar após 24 horas)
+    const loginTime = localStorage.getItem('ebfashion_admin_login_time');
+    if (!loginTime) {
+        return false;
     }
     
-    // Página de detalhes do produto
-    if (document.getElementById('productDetails')) {
-        loadProductDetails();
+    const now = new Date().getTime();
+    const loginDate = parseInt(loginTime);
+    
+    // Se passou mais de 24 horas, expirar login
+    if (now - loginDate > 24 * 60 * 60 * 1000) {
+        localStorage.removeItem('ebfashion_admin_logged');
+        localStorage.removeItem('ebfashion_admin_username');
+        localStorage.removeItem('ebfashion_admin_login_time');
+        return false;
     }
     
-    // Página do carrinho
-    if (document.getElementById('cartItems')) {
-        loadCartItems();
-        
-        // Event listener para o formulário de checkout
-        const checkoutForm = document.getElementById('checkoutForm');
-        if (checkoutForm) {
-            checkoutForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                checkout();
-            });
-        }
+    return true;
+}
+
+// Função para adicionar produto ao carrinho a partir da página de detalhes
+function addToCartFromDetails(productId) {
+    // Buscar o produto pelo ID
+    const product = getProductById(productId);
+    
+    if (!product) {
+        alert('Produto não encontrado.');
+        return;
     }
-});
+    
+    const quantity = parseInt(document.getElementById('productQuantity').value) || 1;
+    const selectedSize = document.getElementById('selectedSize').value;
+    
+    // Adicionar ao carrinho
+    addItemToCart(product, quantity, selectedSize);
+    
+    // Atualizar contador do carrinho
+    updateCartCount();
+    
+    // Notificar usuário
+    alert(`${quantity} unidade(s) de ${product.name} (Tamanho: ${selectedSize}) adicionado(s) ao carrinho!`);
+}
